@@ -1,17 +1,22 @@
-import axios from "axios";
+import axios from 'axios';
 
-const BASE_URL = "http://localhost:8080/api";
+const api = axios.create({
+  baseURL: 'http://localhost:8080',
+  headers: {
+    'Content-Type': 'application/json',
+  },
+});
 
-export const submitApplication = (data) =>
-  axios.post(`${BASE_URL}/applications`, data);
+// Add a request interceptor for JWT token
+api.interceptors.request.use(
+  (config) => {
+    const token = localStorage.getItem('token');
+    if (token && token.trim() !== '') {
+      config.headers.Authorization = `Bearer ${token}`;
+    }
+    return config;
+  },
+  (error) => Promise.reject(error)
+);
 
-export const sendMessage = (data) =>
-  axios.post(`${BASE_URL}/contact`, data);
-
-export const login = (credentials) =>
-  axios.post(`${BASE_URL}/auth/login`, credentials);
-
-export const getApplications = (token) =>
-  axios.get(`${BASE_URL}/applications`, {
-    headers: { Authorization: `Bearer ${token}` }
-  });
+export default api;

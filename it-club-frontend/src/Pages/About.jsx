@@ -2,127 +2,208 @@ import React from "react";
 
 export default function About() {
   return (
-    <div className="text-gray-800">
-      {/* Hero Section */}
-      <section className="bg-gradient-to-r from-indigo-900 to-purple-800 text-white py-16 px-4 rounded-b-3xl mb-12">
-        <div className="max-w-5xl mx-auto text-center">
-          <h1 className="text-4xl md:text-5xl font-bold mb-6">About IT Club AIU</h1>
-          <p className="text-xl max-w-3xl mx-auto leading-relaxed">
-            Empowering the next generation of tech innovators and leaders
+    <div>
+      {/* Header Banner - Simple, like Home page */}
+      <section className="hero about-hero">
+        <div className="container">
+          <h1 className="hero-title">About IT Club</h1>
+          <p className="hero-subtitle">
+            A community of tech enthusiasts at Ala-Too International University
           </p>
         </div>
       </section>
 
-      {/* Main Content */}
-      <div className="max-w-5xl mx-auto px-4">
-        <section className="mb-16">
-          <h2 className="text-3xl font-bold text-indigo-900 mb-6">Our Story</h2>
-          <div className="bg-white p-8 rounded-2xl shadow-lg">
-            <p className="text-lg mb-4 text-gray-700 leading-relaxed">
-              The IT Club at Ala-Too International University was founded in 2018 by a group of passionate students 
+      {/* About Section */}
+      <section className="section">
+        <div className="container">
+          <h2 className="section-title">About IT Club AIU</h2>
+          <div className="section-content">
+            <p>
+              The IT Club at Ala-Too International University was founded in 2023 by a group of passionate students 
               who wanted to create a community dedicated to technological innovation and learning beyond the classroom.
             </p>
-            <p className="text-lg mb-4 text-gray-700 leading-relaxed">
-              What started as informal meetups has grown into one of the most active student organizations at the university,
-              hosting workshops, hackathons, guest lectures, and collaborative projects that connect students with industry professionals.
+            <p>
+              What started as informal meetups has grown into one of the most active student organizations at the university.
+              We've built a community of tech enthusiasts who share knowledge, collaborate on projects, and push each other
+              to explore new technologies and approaches.
             </p>
-            <p className="text-lg text-gray-700 leading-relaxed">
+            <p>
               Today, we continue to foster a collaborative environment where students can explore new technologies, share knowledge, 
               and develop practical skills through hands-on experiences.
             </p>
           </div>
-        </section>
+        </div>
+      </section>
 
-        {/* Mission and Vision */}
-        <section className="mb-16">
-          <div className="grid md:grid-cols-2 gap-8">
-            <div className="bg-white p-8 rounded-2xl shadow-lg">
-              <h3 className="text-2xl font-bold text-indigo-900 mb-4">Our Mission</h3>
-              <p className="text-gray-700 leading-relaxed">
-                To create an inclusive community that empowers students to develop technical skills, 
-                foster innovation, and prepare for successful careers in the technology industry through 
+      {/* Mission & Vision */}
+      <section className="section bg-light">
+        <div className="container">
+          <div className="grid grid-2">
+            <div>
+              <h3>Our Mission</h3>
+              <p>
+                To create an inclusive community that empowers students to develop technical skills,
+                foster innovation, and prepare for successful careers in the technology industry through
                 hands-on learning experiences and collaborative projects.
               </p>
             </div>
-            <div className="bg-white p-8 rounded-2xl shadow-lg">
-              <h3 className="text-2xl font-bold text-indigo-900 mb-4">Our Vision</h3>
-              <p className="text-gray-700 leading-relaxed">
-                To be the premier student-led technology organization that bridges the gap between academic 
-                learning and industry requirements, empowering members to become leaders in the global 
+            <div>
+              <h3>Our Vision</h3>
+              <p>
+                To be the premier student-led technology organization that bridges the gap between academic
+                learning and industry requirements, empowering members to become leaders in the global
                 technology landscape.
               </p>
             </div>
           </div>
-        </section>
+        </div>
+      </section>
 
-        {/* Team Section */}
-        <section className="mb-16">
-          <h2 className="text-3xl font-bold text-indigo-900 mb-8 text-center">Our Leadership Team</h2>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
-            {/* Team member cards */}
-            <div className="text-center">
-              <div className="w-32 h-32 rounded-full bg-indigo-200 mx-auto mb-4"></div>
-              <h4 className="font-semibold">Adilet Kanatbek</h4>
-              <p className="text-sm text-gray-600">President</p>
+      {/* Core Values */}
+      <section className="section">
+        <div className="container">
+          <h2 className="section-title">Our Core Values</h2>
+          <div className="grid grid-3">
+            <div className="card">
+              <div className="card-img">
+                <img
+                  src="https://images.unsplash.com/photo-1451187580459-43490279c0fa?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1744&q=80"
+                  alt="Innovation"
+                />
+              </div>
+              <div className="card-body">
+                <h3>Innovation</h3>
+                <p>
+                  We encourage creative thinking and exploring cutting-edge technologies to solve real-world problems.
+                </p>
+              </div>
             </div>
-            <div className="text-center">
-              <div className="w-32 h-32 rounded-full bg-purple-200 mx-auto mb-4"></div>
-              <h4 className="font-semibold">Aigerim Bakyt</h4>
-              <p className="text-sm text-gray-600">Vice President</p>
+            
+            <div className="card">
+              <div className="card-img">
+                <img
+                  src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1742&q=80"
+                  alt="Collaboration"
+                />
+              </div>
+              <div className="card-body">
+                <h3>Collaboration</h3>
+                <p>
+                  We believe in teamwork, knowledge sharing, and supporting each other's growth to achieve more together.
+                </p>
+              </div>
             </div>
-            <div className="text-center">
-              <div className="w-32 h-32 rounded-full bg-indigo-200 mx-auto mb-4"></div>
-              <h4 className="font-semibold">Damir Askar</h4>
-              <p className="text-sm text-gray-600">Tech Lead</p>
-            </div>
-            <div className="text-center">
-              <div className="w-32 h-32 rounded-full bg-purple-200 mx-auto mb-4"></div>
-              <h4 className="font-semibold">Zarina Tursun</h4>
-              <p className="text-sm text-gray-600">Event Coordinator</p>
+            
+            <div className="card">
+              <div className="card-img">
+                <img
+                  src="https://images.unsplash.com/photo-1434030216411-0b793f4b4173?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1740&q=80"
+                  alt="Continuous Learning"
+                />
+              </div>
+              <div className="card-body">
+                <h3>Continuous Learning</h3>
+                <p>
+                  We embrace lifelong learning and staying current with evolving technologies and industry trends.
+                </p>
+              </div>
             </div>
           </div>
-        </section>
-
-        {/* Values Section */}
-        <section className="mb-16">
-          <h2 className="text-3xl font-bold text-indigo-900 mb-8 text-center">Our Core Values</h2>
-          <div className="grid md:grid-cols-3 gap-6">
-            <div className="bg-white p-6 rounded-xl shadow-lg">
-              <div className="bg-indigo-100 text-indigo-800 w-12 h-12 rounded-full flex items-center justify-center mb-4">
-                <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
-                </svg>
+        </div>
+      </section>
+      
+      {/* What We Do */}
+      <section className="section bg-light">
+        <div className="container">
+          <h2 className="section-title">What We Do</h2>
+          <div className="grid grid-4">
+            <div className="card">
+              <div className="card-img">
+                <img
+                  src="https://images.unsplash.com/photo-1504384308090-c894fdcc538d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1740&q=80"
+                  alt="Workshops"
+                />
               </div>
-              <h3 className="text-xl font-semibold mb-2">Innovation</h3>
-              <p className="text-gray-600">
-                We encourage creative thinking and exploring cutting-edge technologies to solve real-world problems.
-              </p>
+              <div className="card-body">
+                <h3>Workshops & Training</h3>
+                <p>
+                  Regular technical workshops on programming languages, frameworks, and tools.
+                </p>
+              </div>
             </div>
-            <div className="bg-white p-6 rounded-xl shadow-lg">
-              <div className="bg-indigo-100 text-indigo-800 w-12 h-12 rounded-full flex items-center justify-center mb-4">
-                <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
-                </svg>
+            
+            <div className="card">
+              <div className="card-img">
+                <img
+                  src="https://images.unsplash.com/photo-1531498860502-7c67cf02f657?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1740&q=80"
+                  alt="Hackathons"
+                />
               </div>
-              <h3 className="text-xl font-semibold mb-2">Collaboration</h3>
-              <p className="text-gray-600">
-                We believe in teamwork, knowledge sharing, and supporting each other's growth.
-              </p>
+              <div className="card-body">
+                <h3>Hackathons</h3>
+                <p>
+                  Competitive coding events that challenge students to solve real-world problems.
+                </p>
+              </div>
             </div>
-            <div className="bg-white p-6 rounded-xl shadow-lg">
-              <div className="bg-indigo-100 text-indigo-800 w-12 h-12 rounded-full flex items-center justify-center mb-4">
-                <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z" />
-                </svg>
+            
+            <div className="card">
+              <div className="card-img">
+                <img
+                  src="https://images.unsplash.com/photo-1475721027785-f74eccf877e2?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1740&q=80"
+                  alt="Guest Speakers"
+                />
               </div>
-              <h3 className="text-xl font-semibold mb-2">Continuous Learning</h3>
-              <p className="text-gray-600">
-                We embrace lifelong learning and staying current with evolving technologies and industry trends.
-              </p>
+              <div className="card-body">
+                <h3>Guest Speakers</h3>
+                <p>
+                  Industry professionals sharing insights and experiences with our members.
+                </p>
+              </div>
+            </div>
+            
+            <div className="card">
+              <div className="card-img">
+                <img
+                  src="https://images.unsplash.com/photo-1552664730-d307ca884978?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1740&q=80"
+                  alt="Projects"
+                />
+              </div>
+              <div className="card-body">
+                <h3>Project Collaboration</h3>
+                <p>
+                  Team-based projects that build portfolio-worthy experience.
+                </p>
+              </div>
             </div>
           </div>
-        </section>
-      </div>
+        </div>
+      </section>
+      
+      {/* Stats Section */}
+      <section className="stats-section">
+        <div className="container">
+          <h2 className="section-title" style={{color: "white"}}>Our Impact</h2>
+          <div className="grid grid-4 text-center">
+            <div>
+              <div className="stat-number">50+</div>
+              <div className="stat-label">Active Members</div>
+            </div>
+            <div>
+              <div className="stat-number">20+</div>
+              <div className="stat-label">Events Per Year</div>
+            </div>
+            <div>
+              <div className="stat-number">15+</div>
+              <div className="stat-label">Ongoing Projects</div>
+            </div>
+            <div>
+              <div className="stat-number">1+</div>
+              <div className="stat-label">Years Active</div>
+            </div>
+          </div>
+        </div>
+      </section>
     </div>
   );
 }
