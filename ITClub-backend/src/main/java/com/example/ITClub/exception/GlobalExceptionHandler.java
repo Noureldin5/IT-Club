@@ -1,44 +1,49 @@
-// src/main/java/com/example/ITClub/exception/GlobalExceptionHandler.java
 package com.example.ITClub.exception;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.FieldError;
-import org.springframework.web.bind.MethodArgumentNotValidException;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.context.request.WebRequest;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
 @ControllerAdvice
 public class GlobalExceptionHandler {
-    
-    @ExceptionHandler(ResourceNotFoundException.class)
-    public ResponseEntity<?> handleResourceNotFoundException(ResourceNotFoundException ex) {
-        Map<String, String> response = new HashMap<>();
-        response.put("message", ex.getMessage());
+
+    @ExceptionHandler(AuthenticationException.class)
+    public ResponseEntity<?> handleAuthenticationException(AuthenticationException ex, WebRequest request) {
+        Map<String, Object> response = new HashMap<>();
+        response.put("timestamp", new Date());
+        response.put("status", HttpStatus.UNAUTHORIZED.value());
+        response.put("message", "Authentication failed: " + ex.getMessage());
+        response.put("path", request.getDescription(false));
         
-        return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
+        return new ResponseEntity<>(response, HttpStatus.UNAUTHORIZED);
     }
     
-    @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity<?> handleValidationExceptions(MethodArgumentNotValidException ex) {
-        Map<String, String> errors = new HashMap<>();
-        ex.getBindingResult().getAllErrors().forEach((error) -> {
-            String fieldName = ((FieldError) error).getField();
-            String errorMessage = error.getDefaultMessage();
-            errors.put(fieldName, errorMessage);
-        });
+    @ExceptionHandler(BadCredentialsException.class)
+    public ResponseEntity<?> handleBadCredentialsException(BadCredentialsException ex, WebRequest request) {
+        Map<String, Object> response = new HashMap<>();
+        response.put("timestamp", new Date());
+        response.put("status", HttpStatus.UNAUTHORIZED.value());
+        response.put("message", "Invalid username or password");
+        response.put("path", request.getDescription(false));
         
-        return new ResponseEntity<>(errors, HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(response, HttpStatus.UNAUTHORIZED);
     }
     
     @ExceptionHandler(Exception.class)
-    public ResponseEntity<?> handleGlobalException(Exception ex) {
-        Map<String, String> response = new HashMap<>();
-        response.put("message", "An unexpected error occurred");
-        response.put("error", ex.getMessage());
+    public ResponseEntity<?> handleGlobalException(Exception ex, WebRequest request) {
+        Map<String, Object> response = new HashMap<>();
+        response.put("timestamp", new Date());
+        response.put("status", HttpStatus.INTERNAL_SERVER_ERROR.value());
+        response.put("message", "An unexpected error occurred: " + ex.getMessage());
+        response.put("path", request.getDescription(false));
         
         return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
     }

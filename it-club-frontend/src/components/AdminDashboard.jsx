@@ -1,74 +1,225 @@
+// src/components/AdminDashboard.jsx
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
-import api from '../services/api';
+import { useNavigate } from 'react-router-dom';
+import applicationService from '../services/applicationService';
+import authService from '../services/authService';
 
 function AdminDashboard() {
-  const [stats, setStats] = useState({
-    applications: 0,
-    users: 0,
-    messages: 0
-  });
-
+  const navigate = useNavigate();
+  const [applications, setApplications] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
+  const [statusFilter, setStatusFilter] = useState('ALL');
 
   useEffect(() => {
-    const fetchDashboardData = async () => {
-      try {
-        const response = await api.get('/api/admin/dashboard');
-        setStats(response.data);
-        setLoading(false);
-      } catch (err) {
-        console.error('Error fetching dashboard data:', err);
-        setError('Failed to load dashboard data');
-        setLoading(false);
+    // Check if user is authenticated and admin
+    if (!authService.isAuthenticated() || !authService.isAdmin()) {
+      navigate('/admin');
+      return;
+    }
+    
+    fetchApplications();
+  }, [navigate]);
+
+  const fetchApplications = async () => {
+    try {
+      setLoading(true);
+      const response = await applicationService.getApplications();
+      setApplications(response.data);
+      setError('');
+    } catch (err) {
+      console.error('Error fetching applications:', err);
+      
+      if (err.response && err.response.status === 401) {
+        // Token expired or invalid
+        authService.logout();
+        navigate('/admin');
+      } else {
+        setError('Failed to load applications. Please try again later.');
       }
-    };
+    } finally {
+      setLoading(false);
+    }
+  };
 
-    fetchDashboardData();
-  }, []);
+  const handleStatusChange = async (id, newStatus) => {
+    try {
+      await applicationService.updateApplicationStatus(id, newStatus);
+      
+      // Update local state to reflect the change
+      setApplications(applications.map(app => 
+        app.id === id ? { ...app, status: newStatus } : app
+      ));
+    } catch (err) {
+      console.error('Error updating application status:', err);
+      alert('Failed to update application status. Please try again.');
+      
+      if (err.response && err.response.status === 401) {
+        authService.logout();
+        navigate('/admin');
+      }
+    }
+  };
 
-  if (loading) {
-    return <div className="text-center py-10">Loading dashboard...</div>;
-  }
+  const handleLogout = () => {
+    authService.logout();
+    navigate('/admin');
+  };
 
-  if (error) {
-    return <div className="text-center py-10 text-red-500">{error}</div>;
-  }
+  // Filter applications based on selected status
+  const filteredApplications = statusFilter === 'ALL' 
+    ? applications 
+    : applications.filter(app => app.status === statusFilter);
 
   return (
-    <div className="container mx-auto px-4 py-8">
-      <h1 className="text-3xl font-bold mb-8">Admin Dashboard</h1>
-
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-        <div className="bg-white p-6 rounded-lg shadow-md">
-          <h2 className="text-xl font-semibold mb-2">Applications</h2>
-          <p className="text-3xl font-bold text-blue-600">{stats.applications || 0}</p>
-          <Link to="/admin/applications" className="text-blue-500 hover:underline mt-2 inline-block">
-            Manage Applications
-          </Link>
+    <div className="admin-dashboard">
+      <div className="admin-header">
+        <div className="admin-title">
+          <h1>IT Club Admin Dashboard</h1>
+          <p>Manage applications and club activities</p>
         </div>
-
-        <div className="bg-white p-6 rounded-lg shadow-md">
-          <h2 className="text-xl font-semibold mb-2">Users</h2>
-          <p className="text-3xl font-bold text-green-600">{stats.users || 0}</p>
-          <Link to="/admin/users" className="text-blue-500 hover:underline mt-2 inline-block">
-            Manage Users
-          </Link>
-        </div>
-
-        <div className="bg-white p-6 rounded-lg shadow-md">
-          <h2 className="text-xl font-semibold mb-2">Messages</h2>
-          <p className="text-3xl font-bold text-purple-600">{stats.messages || 0}</p>
-          <Link to="/admin/messages" className="text-blue-500 hover:underline mt-2 inline-block">
-            View Messages
-          </Link>
-        </div>
+        <button onClick={handleLogout} className="logout-button">
+          Logout
+        </button>
       </div>
 
-      <div className="bg-white p-6 rounded-lg shadow-md">
-        <h2 className="text-xl font-semibold mb-4">Recent Activity</h2>
-        <p className="text-gray-600">No recent activities to display.</p>
+      <div className="admin-content">
+        <div className="admin-sidebar">
+          <div className="sidebar-section">
+            <h3>Applications</h3>
+            <ul>
+              <li 
+                className={statusFilter === 'ALL' ? 'active' : ''} 
+                onClick={() => setStatusFilter('ALL')}
+              >
+                All Applications
+              </li>
+              <li 
+                className={statusFilter === 'PENDING' ? 'active' : ''} 
+                onClick={() => setStatusFilter('PENDING')}
+              >
+                Pending
+              </li>
+              <li 
+                className={statusFilter === 'APPROVED' ? 'active' : ''} 
+                onClick={() => setStatusFilter('APPROVED')}
+              >
+                Approved
+              </li>
+              <li 
+                className={statusFilter === 'REJECTED' ? 'active' : ''} 
+                onClick={() => setStatusFilter('REJECTED')}
+              >
+                Rejected
+              </li>
+            </ul>
+          </div>
+          <div className="sidebar-section">
+            <h3>Stats</h3>
+            <div className="stat-box">
+              <div className="stat">
+                <span className="stat-value">{applications.length}</span>
+                <span className="stat-label">Total</span>
+              </div>
+              <div className="stat">
+                <span className="stat-value">
+                  {applications.filter(app => app.status === 'PENDING').length}
+                </span>
+                <span className="stat-label">Pending</span>
+              </div>
+              <div className="stat">
+                <span className="stat-value">
+                  {applications.filter(app => app.status === 'APPROVED').length}
+                </span>
+                <span className="stat-label">Approved</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div className="admin-main">
+          <div className="admin-section">
+            <div className="section-header">
+              <h2>
+                {statusFilter === 'ALL' ? 'All Applications' : `${statusFilter.charAt(0) + statusFilter.slice(1).toLowerCase()} Applications`}
+              </h2>
+              <button onClick={fetchApplications} className="refresh-button">
+                Refresh
+              </button>
+            </div>
+
+            {error && <div className="error-message">{error}</div>}
+            
+            {loading ? (
+              <div className="loading-spinner-container">
+                <div className="loading-spinner admin-spinner"></div>
+                <p>Loading applications...</p>
+              </div>
+            ) : filteredApplications.length === 0 ? (
+              <div className="empty-state">
+                <p>No applications found.</p>
+              </div>
+            ) : (
+              <div className="applications-table-container">
+                <table className="applications-table">
+                  <thead>
+                    <tr>
+                      <th>Name</th>
+                      <th>Student ID</th>
+                      <th>Department</th>
+                      <th>Year</th>
+                      <th>Submission Date</th>
+                      <th>Status</th>
+                      <th>Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {filteredApplications.map(application => (
+                      <tr key={application.id} className={`status-${application.status.toLowerCase()}`}>
+                        <td>{application.name}</td>
+                        <td>{application.studentId}</td>
+                        <td>{application.department}</td>
+                        <td>{application.yearOfStudy}</td>
+                        <td>{new Date(application.submissionDate).toLocaleDateString()}</td>
+                        <td>
+                          <span className={`status-badge ${application.status.toLowerCase()}`}>
+                            {application.status}
+                          </span>
+                        </td>
+                        <td>
+                          <div className="action-buttons">
+                            <button 
+                              onClick={() => handleStatusChange(application.id, 'APPROVED')}
+                              className="approve-button"
+                              disabled={application.status === 'APPROVED'}
+                            >
+                              Approve
+                            </button>
+                            <button 
+                              onClick={() => handleStatusChange(application.id, 'REJECTED')}
+                              className="reject-button"
+                              disabled={application.status === 'REJECTED'}
+                            >
+                              Reject
+                            </button>
+                            <button 
+                              className="view-button"
+                              onClick={() => {
+                                alert(`Reason for joining: ${application.reasonForJoining}\nEmail: ${application.email}`);
+                              }}
+                            >
+                              Details
+                            </button>
+                          </div>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            )}
+          </div>
+        </div>
       </div>
     </div>
   );

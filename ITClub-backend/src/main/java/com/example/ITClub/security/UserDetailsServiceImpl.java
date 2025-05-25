@@ -29,14 +29,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
                 .map(role -> new SimpleGrantedAuthority(role.getName().name()))
                 .collect(Collectors.toList());
         
-        // Special case for admin user with plaintext password
-        if (username.equals("admin") && user.getPassword().equals("123")) {
-            return new org.springframework.security.core.userdetails.User(
-                    user.getUsername(),
-                    "{noop}123", // {noop} prefix tells Spring to use NoOpPasswordEncoder for this password
-                    authorities);
-        }
-        
+        // Return standard Spring Security User
         return new org.springframework.security.core.userdetails.User(
                 user.getUsername(),
                 user.getPassword(),

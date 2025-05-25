@@ -8,6 +8,9 @@ import Contact from './Pages/Contact';
 import Gallery from './Pages/Gallery';
 import Admin from './Pages/Admin';
 import Register from './Pages/Register';
+import AdminLogin from './components/AdminLogin';
+import AdminDashboard from './components/AdminDashboard';
+import ProtectedRoute from './components/ProtectedRoute';
 import './App.css';
 
 function App() {
@@ -24,6 +27,17 @@ function App() {
             <Route path="/gallery" element={<Gallery />} />
             <Route path="/admin" element={<Admin />} />
             <Route path="/register" element={<Register/>} />
+            
+            {/* Admin routes */}
+            <Route path="/admin/login" element={<AdminLogin />} />
+            <Route 
+              path="/admin/dashboard" 
+              element={
+                <ProtectedRoute adminOnly={true}>
+                  <AdminDashboard />
+                </ProtectedRoute>
+              } 
+            />
           </Routes>
         </div>
       </div>

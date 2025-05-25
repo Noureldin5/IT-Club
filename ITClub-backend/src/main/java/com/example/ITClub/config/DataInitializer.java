@@ -4,6 +4,7 @@ import com.example.ITClub.model.Role;
 import com.example.ITClub.model.User;
 import com.example.ITClub.repository.RoleRepository;
 import com.example.ITClub.repository.UserRepository;
+import jakarta.annotation.PostConstruct;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -12,7 +13,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import java.util.HashSet;
-import java.util.Optional;
 import java.util.Set;
 
 @Component
@@ -61,10 +61,10 @@ public class DataInitializer implements CommandLineRunner {
         User admin = new User();
         admin.setUsername("admin");
         admin.setFullName("Administrator");
-        String encodedPassword = passwordEncoder.encode("admin123");
-        admin.setPassword(encodedPassword);
+        // Store password as encrypted
+        admin.setPassword(passwordEncoder.encode("123"));
         admin.setRoles(adminRoles);
         userRepository.save(admin);
-        log.info("Created admin user with BCrypt password");
+        log.info("Created admin user with encoded password");
     }
 }
